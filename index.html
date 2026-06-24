@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ============================================================= -->
+  <!--  Reserved Floors — South Sound, WA hardwood flooring contractor -->
+  <!--  Phone is LIVE: (253) 987-6536 / tel:+12539876536               -->
+  <!--  STILL PLACEHOLDER — replace before launch:                     -->
+  <!--    • Email:  hello@reservedfloors.com  (search "reservedfloors.com") -->
+  <!--    • Form:   add a Formspree endpoint to <form action="...">    -->
+  <!--      (form currently shows a JS-simulated success state)         -->
+  <!--  Instagram @reservedfloors is real.                             -->
+  <!-- ============================================================= -->
+
+  <title>Reserved Floors | Hardwood Refinishing, Repair &amp; Installation — South Sound, WA</title>
+  <meta name="description" content="20+ years restoring hardwood floors across Tacoma, Lakewood, Puyallup, Gig Harbor, Federal Way & Seattle. Most floors can be refinished for a fraction of the cost of replacement. Clean work. No shortcuts. Get a free quote." />
+  <meta name="theme-color" content="#2A1F17" />
+
+  <!-- Open Graph / social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Reserved Floors | Hardwood Refinishing &amp; Repair — South Sound, WA" />
+  <meta property="og:description" content="Bring your hardwood floors back to life. Refinishing, repair & installation across the South Sound. 20+ years. Clean work. No shortcuts." />
+  <meta property="og:image" content="images/hero-oak.jpg" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232A1F17'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23C0843E' font-family='Georgia,serif'>R</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind (Play CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream:    '#FAF6F0',
+            espresso: '#2A1F17',
+            walnut:   '#3B2A1D',
+            caramel:  '#C0843E',
+            'caramel-dark': '#A56C2D',
+            charcoal: '#1F1A16',
+            sand:     '#EFE6D8',
+          },
+          fontFamily: {
+            serif: ['Fraunces', 'Georgia', 'serif'],
+            sans:  ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            soft:  '0 10px 40px -12px rgba(42,31,23,0.25)',
+            lift:  '0 24px 60px -18px rgba(42,31,23,0.45)',
+          },
+          letterSpacing: { tightish: '-0.02em' },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; }
+    body { background-color: #FAF6F0; }
+
+    /* Subtle wood-grain / paper grain overlay */
+    .grain::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      opacity: .5; mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    }
+
+    /* Hero ken-burns */
+    @keyframes kenburns {
+      0%   { transform: scale(1.06) translate(0, 0); }
+      50%  { transform: scale(1.16) translate(-1.5%, -1.5%); }
+      100% { transform: scale(1.06) translate(0, 0); }
+    }
+    .kenburns { animation: kenburns 28s ease-in-out infinite; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); will-change: opacity, transform; }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal[data-delay="1"] { transition-delay: .08s; }
+    .reveal[data-delay="2"] { transition-delay: .16s; }
+    .reveal[data-delay="3"] { transition-delay: .24s; }
+    .reveal[data-delay="4"] { transition-delay: .32s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .kenburns { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* Before / After slider */
+    .ba { position: relative; overflow: hidden; touch-action: none; user-select: none; cursor: ew-resize; }
+    .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+    .ba-before { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+    .ba-handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: rgba(250,246,240,.95); transform: translateX(-1px); box-shadow: 0 0 0 1px rgba(42,31,23,.25); }
+    .ba-knob { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 56px; border-radius: 9999px; background: #FAF6F0; box-shadow: 0 8px 24px -6px rgba(42,31,23,.6); display: grid; place-items: center; }
+    .ba-tag { position: absolute; bottom: 14px; font-family: 'Inter',sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #FAF6F0; background: rgba(42,31,23,.62); backdrop-filter: blur(4px); padding: 6px 12px; border-radius: 9999px; }
+
+    /* nav link underline */
+    .navlink { position: relative; }
+    .navlink::after { content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:#C0843E; transition:width .3s ease; }
+    .navlink:hover::after { width:100%; }
+
+    /* form */
+    .field { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+    .field:focus { outline: none; border-color: #C0843E; box-shadow: 0 0 0 4px rgba(192,132,62,.15); }
+    .field.invalid { border-color: #c0392b; box-shadow: 0 0 0 4px rgba(192,57,43,.12); }
+    .err-msg { display: none; }
+    .field.invalid ~ .err-msg { display: block; }
+
+    .cta { transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, background-color .25s ease, color .25s ease; }
+    .cta:hover { transform: translateY(-3px); }
+    .svc-card { transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease; }
+    .svc-card:hover { transform: translateY(-8px); box-shadow: 0 28px 60px -22px rgba(42,31,23,.5); }
+    .svc-card:hover .svc-img { transform: scale(1.08); }
+    .svc-img { transition: transform .7s cubic-bezier(.16,1,.3,1); }
+  </style>
+</head>
+
+<body class="font-sans text-charcoal antialiased selection:bg-caramel/30">
+
+  <!-- ============================= HEADER ============================= -->
+  <header id="header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <nav id="nav" class="flex items-center justify-between transition-all duration-300 py-5">
+        <a href="#top" class="flex items-center gap-3 group">
+          <span class="grid place-items-center h-10 w-10 rounded-xl bg-espresso text-caramel font-serif text-2xl leading-none shadow-soft transition group-hover:bg-walnut">R</span>
+          <span class="leading-tight">
+            <span class="block font-serif text-xl sm:text-2xl tracking-tightish text-espresso">Reserved Floors</span>
+            <span id="nav-tagline" class="block text-[11px] uppercase tracking-[0.18em] text-charcoal/55">Hardwood · South Sound, WA</span>
+          </span>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-8 text-[15px] font-medium text-charcoal/80">
+          <a href="#services" class="navlink hover:text-espresso">Services</a>
+          <a href="#transformation" class="navlink hover:text-espresso">Before &amp; After</a>
+          <a href="#why" class="navlink hover:text-espresso">Why Us</a>
+          <a href="#areas" class="navlink hover:text-espresso">Service Area</a>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <a href="tel:+12539876536" class="hidden sm:flex items-center gap-2 text-espresso font-semibold hover:text-caramel-dark transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+            <span>(253) 987-6536</span>
+          </a>
+          <a href="#quote" class="cta inline-flex items-center rounded-full bg-caramel px-5 py-2.5 text-sm font-semibold text-white shadow-soft hover:bg-caramel-dark">
+            Get a Free Quote
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================= HERO ============================= -->
+  <section id="top" class="relative min-h-[100svh] flex items-center overflow-hidden">
+    <!-- bg -->
+    <div class="absolute inset-0 -z-10">
+      <img src="images/hero-oak.jpg" alt="Freshly refinished wide-plank white oak hardwood floor in a bright home" class="kenburns absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-r from-espresso/85 via-espresso/60 to-espresso/25"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-espresso/70 via-transparent to-espresso/30"></div>
+    </div>
+
+    <div class="mx-auto max-w-7xl px-5 sm:px-8 w-full pt-28 pb-32">
+      <div class="max-w-2xl reveal in">
+        <span class="inline-flex items-center gap-2 rounded-full border border-cream/30 bg-cream/10 px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-cream backdrop-blur-sm">
+          <span class="h-1.5 w-1.5 rounded-full bg-caramel"></span>
+          South Sound, WA · 20+ Years
+        </span>
+
+        <h1 class="mt-6 font-serif text-cream text-[2.6rem] leading-[1.04] sm:text-6xl lg:text-7xl tracking-tightish">
+          Bring your hardwood floors <span class="text-caramel italic">back to life.</span>
+        </h1>
+
+        <p class="mt-6 text-lg sm:text-xl text-cream/85 leading-relaxed max-w-xl">
+          Most hardwood floors don't need replacing — they need a craftsman. We refinish, repair &amp; restore tired floors for a <span class="text-cream font-semibold">fraction of the cost of full replacement.</span>
+        </p>
+
+        <div class="mt-9 flex flex-col sm:flex-row gap-4">
+          <a href="#quote" class="cta inline-flex items-center justify-center gap-2 rounded-full bg-caramel px-8 py-4 text-base font-semibold text-white shadow-lift hover:bg-caramel-dark">
+            Get a Free Quote
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+          </a>
+          <a href="tel:+12539876536" class="cta inline-flex items-center justify-center gap-2 rounded-full border border-cream/40 bg-cream/5 px-8 py-4 text-base font-semibold text-cream backdrop-blur-sm hover:bg-cream hover:text-espresso">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+            Call or Text
+          </a>
+        </div>
+
+        <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-cream/75 text-sm">
+          <span class="flex items-center gap-2"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 11.59l6.79-6.8a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Clean job sites</span>
+          <span class="flex items-center gap-2"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 11.59l6.79-6.8a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>No shortcuts</span>
+          <span class="flex items-center gap-2"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 11.59l6.79-6.8a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Locally owned</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- scroll cue -->
+    <a href="#problem" class="hidden md:flex absolute bottom-7 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-cream/70 hover:text-cream transition">
+      <span class="text-[11px] uppercase tracking-[0.2em]">Scroll</span>
+      <span class="block h-9 w-[1.5px] bg-cream/50 animate-pulse"></span>
+    </a>
+  </section>
+
+  <!-- ===================== PROBLEM / SOLUTION ===================== -->
+  <section id="problem" class="relative grain bg-cream py-20 sm:py-28">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="max-w-2xl reveal">
+        <p class="text-caramel-dark font-semibold uppercase tracking-[0.18em] text-sm">The good news</p>
+        <h2 class="mt-3 font-serif text-3xl sm:text-5xl tracking-tightish text-espresso leading-[1.08]">If your floors are…</h2>
+      </div>
+
+      <div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- item -->
+        <div class="reveal" data-delay="1">
+          <div class="h-full rounded-2xl border border-espresso/10 bg-white/60 p-6 sm:p-7 shadow-soft">
+            <div class="grid place-items-center h-12 w-12 rounded-xl bg-caramel/15 text-caramel-dark">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 19L19 4m-3 0h3v3M9.5 14.5l-2.5 5 5-2.5"/></svg>
+            </div>
+            <h3 class="mt-5 font-serif text-xl text-espresso">Scratched &amp; worn</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Pet marks, foot-traffic lanes, gouges and dents that have built up over the years.</p>
+          </div>
+        </div>
+        <div class="reveal" data-delay="2">
+          <div class="h-full rounded-2xl border border-espresso/10 bg-white/60 p-6 sm:p-7 shadow-soft">
+            <div class="grid place-items-center h-12 w-12 rounded-xl bg-caramel/15 text-caramel-dark">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m14.95 6.95l-1.4-1.4M6.46 6.46L5.05 5.05m13.9 0l-1.4 1.4M6.46 17.54l-1.41 1.41M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+            <h3 class="mt-5 font-serif text-xl text-espresso">Dull &amp; faded</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Sun-bleached, cloudy finish that's lost the warmth and depth it once had.</p>
+          </div>
+        </div>
+        <div class="reveal" data-delay="3">
+          <div class="h-full rounded-2xl border border-espresso/10 bg-white/60 p-6 sm:p-7 shadow-soft">
+            <div class="grid place-items-center h-12 w-12 rounded-xl bg-caramel/15 text-caramel-dark">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/><path stroke-linecap="round" d="M8 4v16" opacity=".5"/></svg>
+            </div>
+            <h3 class="mt-5 font-serif text-xl text-espresso">Discolored &amp; uneven</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Water stains, patchy color, and boards that no longer match after past repairs.</p>
+          </div>
+        </div>
+        <div class="reveal" data-delay="4">
+          <div class="h-full rounded-2xl border border-espresso/10 bg-white/60 p-6 sm:p-7 shadow-soft">
+            <div class="grid place-items-center h-12 w-12 rounded-xl bg-caramel/15 text-caramel-dark">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m5-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="mt-5 font-serif text-xl text-espresso">Dated &amp; tired</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">An old orange-y tone or a color that just doesn't fit the home anymore.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal mt-12 max-w-3xl rounded-2xl bg-espresso px-7 py-7 sm:px-9 sm:py-8 shadow-soft">
+        <p class="font-serif text-xl sm:text-2xl text-cream leading-snug">
+          …you don't have to live with it — and you probably don't need to replace it.
+          <span class="text-caramel"> This is exactly what we bring back to life every single day.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BEFORE / AFTER ===================== -->
+  <section id="transformation" class="relative bg-walnut py-20 sm:py-28 overflow-hidden">
+    <div class="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
+      <div class="max-w-2xl reveal">
+        <p class="text-caramel font-semibold uppercase tracking-[0.18em] text-sm">See it for yourself</p>
+        <h2 class="mt-3 font-serif text-3xl sm:text-5xl tracking-tightish text-cream leading-[1.08]">The transformation</h2>
+        <p class="mt-4 text-cream/70 text-lg leading-relaxed">Same boards. Decades of life left in them. Drag the handle to reveal what a proper sand &amp; refinish actually does.</p>
+      </div>
+
+      <div class="reveal mt-10 rounded-3xl overflow-hidden shadow-lift ring-1 ring-cream/10">
+        <div class="ba aspect-[3/2] w-full" id="ba" style="--pos:50%">
+          <!-- AFTER (base) -->
+          <img src="images/ba-after.jpg" alt="Hardwood floor after refinishing — rich, warm, sealed finish" />
+          <!-- BEFORE (clipped overlay) -->
+          <div class="ba-before">
+            <img src="images/ba-before.jpg" alt="Hardwood floor before — raw, freshly sanded and worn" />
+          </div>
+          <span class="ba-tag left-4">Before</span>
+          <span class="ba-tag right-4">After</span>
+          <div class="ba-handle" id="ba-handle">
+            <span class="ba-knob">
+              <svg class="w-6 h-6 text-espresso" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-4 3 4 3m8-6l4 3-4 3"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p class="reveal mt-4 text-center text-cream/50 text-sm">Real floor refinished by Reserved Floors · <a href="https://instagram.com/reservedfloors" target="_blank" rel="noopener" class="underline decoration-caramel/60 underline-offset-4 hover:text-cream">@reservedfloors</a></p>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section id="services" class="relative grain bg-cream py-20 sm:py-28">
+    <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="max-w-2xl reveal">
+        <p class="text-caramel-dark font-semibold uppercase tracking-[0.18em] text-sm">What we do</p>
+        <h2 class="mt-3 font-serif text-3xl sm:text-5xl tracking-tightish text-espresso leading-[1.08]">Floors, done properly.</h2>
+        <p class="mt-4 text-charcoal/70 text-lg leading-relaxed">From a full refinish to a single seamless repair — every job gets the same careful, no-shortcut approach.</p>
+      </div>
+
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- card 1 -->
+        <article class="svc-card reveal group overflow-hidden rounded-2xl bg-white shadow-soft border border-espresso/5" data-delay="1">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/hero-oak.jpg" alt="Wide-plank hardwood flooring installation" class="svc-img absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/40 to-transparent"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-serif text-2xl text-espresso">Hardwood Flooring</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">New solid &amp; engineered hardwood, expertly installed and finished to last for generations.</p>
+          </div>
+        </article>
+        <!-- card 2 -->
+        <article class="svc-card reveal group overflow-hidden rounded-2xl bg-white shadow-soft border border-espresso/5" data-delay="2">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/closet-detail.jpg" alt="LVP installation and repair" class="svc-img absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/40 to-transparent"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-serif text-2xl text-espresso">LVP Installation &amp; Repairs</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Durable luxury vinyl plank installed clean and flat — plus fixes for failing or lifting LVP.</p>
+          </div>
+        </article>
+        <!-- card 3 -->
+        <article class="svc-card reveal group overflow-hidden rounded-2xl bg-white shadow-soft border border-espresso/5" data-delay="3">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/before-sanded.jpg" alt="Hardwood refinishing and sanding" class="svc-img absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/40 to-transparent"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-serif text-2xl text-espresso">Refinishing &amp; Sanding</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Dust-conscious sanding down to fresh wood, then a flawless new finish. The big transformation.</p>
+          </div>
+        </article>
+        <!-- card 4 -->
+        <article class="svc-card reveal group overflow-hidden rounded-2xl bg-white shadow-soft border border-espresso/5" data-delay="1">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/after-finished.jpg" alt="Staining and color changes for hardwood" class="svc-img absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/40 to-transparent"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-serif text-2xl text-espresso">Staining / Color Changes</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Go lighter, richer, or fully modern. We'll match a color to your home and show samples first.</p>
+          </div>
+        </article>
+        <!-- card 5 -->
+        <article class="svc-card reveal group overflow-hidden rounded-2xl bg-white shadow-soft border border-espresso/5" data-delay="2">
+          <div class="relative h-48 overflow-hidden">
+            <img src="images/ba-before.jpg" alt="Seamless patch work and board weave-ins" class="svc-img absolute inset-0 w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-espresso/40 to-transparent"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-serif text-2xl text-espresso">Seamless Patch Work &amp; Weave-ins</h3>
+            <p class="mt-2 text-sm text-charcoal/70 leading-relaxed">Removed a wall? Water damage? We weave in new boards so the repair disappears completely.</p>
+          </div>
+        </article>
+        <!-- CTA card -->
+        <article class="reveal group relative overflow-hidden rounded-2xl bg-espresso shadow-soft flex flex-col justify-center p-7" data-delay="3">
+          <div class="grain absolute inset-0 opacity-60"></div>
+          <div class="relative z-10">
+            <h3 class="font-serif text-2xl text-cream leading-snug">Not sure what your floors need?</h3>
+            <p class="mt-2 text-sm text-cream/70 leading-relaxed">Send a couple of photos and we'll tell you honestly — refinish or replace.</p>
+            <a href="#quote" class="cta mt-5 inline-flex items-center gap-2 rounded-full bg-caramel px-6 py-3 text-sm font-semibold text-white shadow-soft hover:bg-caramel-dark">
+              Get a Free Quote
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHY US ===================== -->
+  <section id="why" class="relative bg-espresso py-20 sm:py-28 overflow-hidden">
+    <div class="grain absolute inset-0 opacity-50"></div>
+    <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="reveal">
+          <p class="text-caramel font-semibold uppercase tracking-[0.18em] text-sm">Why Reserved Floors</p>
+          <h2 class="mt-3 font-serif text-3xl sm:text-5xl tracking-tightish text-cream leading-[1.08]">Two decades of doing it the right way.</h2>
+          <p class="mt-5 text-cream/75 text-lg leading-relaxed">Reserved Floors is a local, owner-run crew that's been refinishing and installing hardwood across the South Sound for more than 20 years. We treat your home like our own — masked off, swept up, and finished without cutting a single corner.</p>
+          <ul class="mt-7 space-y-3 text-cream/85">
+            <li class="flex items-start gap-3"><svg class="w-5 h-5 mt-0.5 text-caramel shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 11.59l6.79-6.8a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span><span class="font-semibold text-cream">Honest assessments.</span> If a refinish will save you thousands, we'll tell you — even if it's the smaller job.</span></li>
+            <li class="flex items-start gap-3"><svg class="w-5 h-5 mt-0.5 text-caramel shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 11.59l6.79-6.8a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span><span class="font-semibold text-cream">Clean job sites.</span> Dust-conscious sanding and tidy daily cleanup, start to finish.</span></li>
+            <li class="flex items-start gap-3"><svg class="w-5 h-5 mt-0.5 text-caramel shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 011.42-1.42L8.5 11.59l6.79-6.8a1 1 0 011.414 0z" clip-rule="evenodd"/></svg><span><span class="font-semibold text-cream">No shortcuts.</span> Proper prep, proper coats, proper cure. The kind of work that lasts.</span></li>
+          </ul>
+        </div>
+
+        <div class="reveal grid grid-cols-2 gap-4 sm:gap-5" data-delay="1">
+          <div class="rounded-2xl bg-cream/5 border border-cream/10 p-6 sm:p-8 backdrop-blur-sm">
+            <div class="font-serif text-5xl sm:text-6xl text-caramel">20+</div>
+            <p class="mt-2 text-sm font-medium text-cream/70 uppercase tracking-wide">Years of experience</p>
+          </div>
+          <div class="rounded-2xl bg-cream/5 border border-cream/10 p-6 sm:p-8 backdrop-blur-sm">
+            <div class="font-serif text-5xl sm:text-6xl text-caramel">100%</div>
+            <p class="mt-2 text-sm font-medium text-cream/70 uppercase tracking-wide">Clean job sites</p>
+          </div>
+          <div class="rounded-2xl bg-cream/5 border border-cream/10 p-6 sm:p-8 backdrop-blur-sm">
+            <div class="font-serif text-5xl sm:text-6xl text-caramel">6</div>
+            <p class="mt-2 text-sm font-medium text-cream/70 uppercase tracking-wide">Cities served</p>
+          </div>
+          <div class="rounded-2xl bg-cream/5 border border-cream/10 p-6 sm:p-8 backdrop-blur-sm">
+            <div class="font-serif text-5xl sm:text-6xl text-caramel">0</div>
+            <p class="mt-2 text-sm font-medium text-cream/70 uppercase tracking-wide">Shortcuts taken</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICE AREA ===================== -->
+  <section id="areas" class="relative grain bg-cream py-20 sm:py-28">
+    <div class="relative z-10 mx-auto max-w-5xl px-5 sm:px-8 text-center">
+      <div class="reveal">
+        <p class="text-caramel-dark font-semibold uppercase tracking-[0.18em] text-sm">Where we work</p>
+        <h2 class="mt-3 font-serif text-3xl sm:text-5xl tracking-tightish text-espresso leading-[1.08]">Proudly serving the South Sound</h2>
+        <p class="mt-4 text-charcoal/70 text-lg leading-relaxed max-w-2xl mx-auto">Based locally and working throughout the region. If you're nearby and not listed, just ask.</p>
+      </div>
+
+      <div class="reveal mt-10 flex flex-wrap justify-center gap-3 sm:gap-4" data-delay="1">
+        <span class="cta inline-flex items-center gap-2 rounded-full bg-white border border-espresso/10 px-6 py-3 text-base font-semibold text-espresso shadow-soft hover:bg-espresso hover:text-cream"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>Tacoma</span>
+        <span class="cta inline-flex items-center gap-2 rounded-full bg-white border border-espresso/10 px-6 py-3 text-base font-semibold text-espresso shadow-soft hover:bg-espresso hover:text-cream"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>Lakewood</span>
+        <span class="cta inline-flex items-center gap-2 rounded-full bg-white border border-espresso/10 px-6 py-3 text-base font-semibold text-espresso shadow-soft hover:bg-espresso hover:text-cream"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>Puyallup</span>
+        <span class="cta inline-flex items-center gap-2 rounded-full bg-white border border-espresso/10 px-6 py-3 text-base font-semibold text-espresso shadow-soft hover:bg-espresso hover:text-cream"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>Gig Harbor</span>
+        <span class="cta inline-flex items-center gap-2 rounded-full bg-white border border-espresso/10 px-6 py-3 text-base font-semibold text-espresso shadow-soft hover:bg-espresso hover:text-cream"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>Federal Way</span>
+        <span class="cta inline-flex items-center gap-2 rounded-full bg-white border border-espresso/10 px-6 py-3 text-base font-semibold text-espresso shadow-soft hover:bg-espresso hover:text-cream"><svg class="w-4 h-4 text-caramel" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z" clip-rule="evenodd"/></svg>Seattle</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTE FORM ===================== -->
+  <section id="quote" class="relative bg-walnut py-20 sm:py-28 overflow-hidden">
+    <div class="grain absolute inset-0 opacity-50"></div>
+    <div class="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
+      <div class="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+        <!-- left copy -->
+        <div class="lg:col-span-2 reveal">
+          <p class="text-caramel font-semibold uppercase tracking-[0.18em] text-sm">Free, no-pressure quote</p>
+          <h2 class="mt-3 font-serif text-3xl sm:text-5xl tracking-tightish text-cream leading-[1.08]">Tell us about your floors</h2>
+          <p class="mt-5 text-cream/75 text-lg leading-relaxed">Fill out the form and we'll get right back to you with honest advice and a free estimate. Prefer to talk? Call or text anytime.</p>
+
+          <div class="mt-8 space-y-4">
+            <a href="tel:+12539876536" class="cta flex items-center gap-4 rounded-2xl bg-cream/5 border border-cream/10 p-5 hover:bg-cream/10">
+              <span class="grid place-items-center h-12 w-12 rounded-xl bg-caramel text-white shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg></span>
+              <span><span class="block text-cream/60 text-xs uppercase tracking-wide">Call or text</span><span class="block text-cream font-semibold text-lg">(253) 987-6536</span></span>
+            </a>
+            <a href="mailto:hello@reservedfloors.com" class="cta flex items-center gap-4 rounded-2xl bg-cream/5 border border-cream/10 p-5 hover:bg-cream/10">
+              <span class="grid place-items-center h-12 w-12 rounded-xl bg-caramel text-white shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></span>
+              <span><span class="block text-cream/60 text-xs uppercase tracking-wide">Email</span><span class="block text-cream font-semibold text-lg">hello@reservedfloors.com</span></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- right form -->
+        <div class="lg:col-span-3 reveal" data-delay="1">
+          <div class="rounded-3xl bg-cream p-6 sm:p-9 shadow-lift">
+            <!-- success state -->
+            <div id="form-success" class="hidden text-center py-10">
+              <div class="mx-auto grid place-items-center h-16 w-16 rounded-full bg-caramel/15 text-caramel-dark">
+                <svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <h3 class="mt-5 font-serif text-3xl text-espresso">Thank you!</h3>
+              <p class="mt-3 text-charcoal/70 max-w-sm mx-auto">Your request is in. We'll be in touch shortly with honest advice and your free estimate. Need us sooner? <a href="tel:+12539876536" class="text-caramel-dark font-semibold underline underline-offset-2">Call or text us.</a></p>
+            </div>
+
+            <!-- the form -->
+            <!-- To collect submissions for real: set action to your Formspree endpoint
+                 e.g. action="https://formspree.io/f/yourid" method="POST" and remove the JS demo handler -->
+            <form id="quote-form" novalidate class="space-y-5">
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="name" class="block text-sm font-semibold text-espresso mb-1.5">Name</label>
+                  <input id="name" name="name" type="text" required placeholder="Your name" class="field w-full rounded-xl border border-espresso/15 bg-white px-4 py-3 text-charcoal placeholder:text-charcoal/35" />
+                  <p class="err-msg mt-1.5 text-sm text-red-700">Please enter your name.</p>
+                </div>
+                <div>
+                  <label for="phone" class="block text-sm font-semibold text-espresso mb-1.5">Phone</label>
+                  <input id="phone" name="phone" type="tel" required placeholder="(253) 000-0000" class="field w-full rounded-xl border border-espresso/15 bg-white px-4 py-3 text-charcoal placeholder:text-charcoal/35" />
+                  <p class="err-msg mt-1.5 text-sm text-red-700">Please enter a valid phone number.</p>
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="email" class="block text-sm font-semibold text-espresso mb-1.5">Email</label>
+                  <input id="email" name="email" type="email" required placeholder="you@email.com" class="field w-full rounded-xl border border-espresso/15 bg-white px-4 py-3 text-charcoal placeholder:text-charcoal/35" />
+                  <p class="err-msg mt-1.5 text-sm text-red-700">Please enter a valid email address.</p>
+                </div>
+                <div>
+                  <label for="city" class="block text-sm font-semibold text-espresso mb-1.5">City</label>
+                  <select id="city" name="city" required class="field w-full rounded-xl border border-espresso/15 bg-white px-4 py-3 text-charcoal">
+                    <option value="" disabled selected>Select your city</option>
+                    <option>Tacoma</option>
+                    <option>Lakewood</option>
+                    <option>Puyallup</option>
+                    <option>Gig Harbor</option>
+                    <option>Federal Way</option>
+                    <option>Seattle</option>
+                    <option>Other (South Sound)</option>
+                  </select>
+                  <p class="err-msg mt-1.5 text-sm text-red-700">Please select your city.</p>
+                </div>
+              </div>
+
+              <div>
+                <label for="service" class="block text-sm font-semibold text-espresso mb-1.5">Service needed</label>
+                <select id="service" name="service" required class="field w-full rounded-xl border border-espresso/15 bg-white px-4 py-3 text-charcoal">
+                  <option value="" disabled selected>What can we help with?</option>
+                  <option>Hardwood Flooring (new install)</option>
+                  <option>LVP Installation &amp; Repairs</option>
+                  <option>Refinishing &amp; Sanding</option>
+                  <option>Staining / Color Change</option>
+                  <option>Patch Work &amp; Weave-ins</option>
+                  <option>Not sure — need advice</option>
+                </select>
+                <p class="err-msg mt-1.5 text-sm text-red-700">Please choose a service.</p>
+              </div>
+
+              <div>
+                <label for="message" class="block text-sm font-semibold text-espresso mb-1.5">Message <span class="font-normal text-charcoal/45">(optional)</span></label>
+                <textarea id="message" name="message" rows="4" placeholder="Tell us about your floors — rough square footage, age, condition, photos welcome later." class="field w-full rounded-xl border border-espresso/15 bg-white px-4 py-3 text-charcoal placeholder:text-charcoal/35 resize-none"></textarea>
+              </div>
+
+              <button type="submit" id="quote-submit" class="cta w-full inline-flex items-center justify-center gap-2 rounded-full bg-caramel px-8 py-4 text-base font-semibold text-white shadow-soft hover:bg-caramel-dark">
+                <span class="btn-label">Request My Free Quote</span>
+                <svg class="btn-arrow w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+              </button>
+              <p class="text-center text-xs text-charcoal/50">No spam, ever. We'll only use this to reach you about your floors.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FINAL CTA ===================== -->
+  <section class="relative overflow-hidden">
+    <img src="images/after-finished.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-espresso/85"></div>
+    <div class="relative z-10 mx-auto max-w-4xl px-5 sm:px-8 py-24 sm:py-32 text-center">
+      <h2 class="reveal font-serif text-4xl sm:text-6xl tracking-tightish text-cream leading-[1.05]">Ready to fall in love with your floors again?</h2>
+      <p class="reveal mt-5 text-lg text-cream/80 max-w-xl mx-auto" data-delay="1">Get an honest, no-pressure estimate from a crew that's been doing this right for 20+ years.</p>
+      <div class="reveal mt-9 flex flex-col sm:flex-row justify-center gap-4" data-delay="2">
+        <a href="tel:+12539876536" class="cta inline-flex items-center justify-center gap-2 rounded-full bg-caramel px-8 py-4 text-base font-semibold text-white shadow-lift hover:bg-caramel-dark">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          (253) 987-6536
+        </a>
+        <a href="#quote" class="cta inline-flex items-center justify-center gap-2 rounded-full border border-cream/40 bg-cream/5 px-8 py-4 text-base font-semibold text-cream backdrop-blur-sm hover:bg-cream hover:text-espresso">
+          Get a Free Quote
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-charcoal text-cream/70">
+    <div class="mx-auto max-w-7xl px-5 sm:px-8 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-3">
+            <span class="grid place-items-center h-10 w-10 rounded-xl bg-espresso text-caramel font-serif text-2xl leading-none">R</span>
+            <span class="font-serif text-xl text-cream">Reserved Floors</span>
+          </div>
+          <p class="mt-4 text-sm leading-relaxed">Hardwood refinishing, repair &amp; installation across the South Sound. 20+ years. Clean work. No shortcuts.</p>
+        </div>
+
+        <div>
+          <h4 class="text-cream font-semibold text-sm uppercase tracking-wider">Contact</h4>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li><a href="tel:+12539876536" class="hover:text-caramel transition">(253) 987-6536</a></li>
+            <li><a href="mailto:hello@reservedfloors.com" class="hover:text-caramel transition">hello@reservedfloors.com</a></li>
+            <li><a href="https://instagram.com/reservedfloors" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-caramel transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.43-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.52.01-4.76.07-.9.04-1.39.19-1.71.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.81-.32 1.71C3.4 8.48 3.4 8.85 3.4 12s0 3.52.06 4.76c.04.9.19 1.39.32 1.71.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.81.28 1.71.32 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c.9-.04 1.39-.19 1.71-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.81.32-1.71.06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.04-.9-.19-1.39-.32-1.71a2.85 2.85 0 00-.69-1.06 2.85 2.85 0 00-1.06-.69c-.32-.13-.81-.28-1.71-.32C15.52 4.01 15.15 4 12 4zm0 3.06A4.94 4.94 0 1016.94 12 4.94 4.94 0 0012 7.06zm0 8.14A3.2 3.2 0 1115.2 12 3.2 3.2 0 0112 15.2zm6.3-8.34a1.15 1.15 0 11-1.15-1.15 1.15 1.15 0 011.15 1.15z"/></svg>@reservedfloors</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-cream font-semibold text-sm uppercase tracking-wider">Service Area</h4>
+          <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+            <li>Tacoma</li><li>Lakewood</li><li>Puyallup</li><li>Gig Harbor</li><li>Federal Way</li><li>Seattle</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-cream font-semibold text-sm uppercase tracking-wider">Explore</h4>
+          <ul class="mt-4 space-y-2 text-sm">
+            <li><a href="#services" class="hover:text-caramel transition">Services</a></li>
+            <li><a href="#transformation" class="hover:text-caramel transition">Before &amp; After</a></li>
+            <li><a href="#why" class="hover:text-caramel transition">Why Us</a></li>
+            <li><a href="#quote" class="hover:text-caramel transition">Free Quote</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-cream/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-cream/50">
+        <p>© <span id="year"></span> Reserved Floors. All rights reserved.</p>
+        <p>Hardwood refinishing &amp; installation · South Sound, WA</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== MOBILE STICKY BAR ===================== -->
+  <div id="mobile-bar" class="lg:hidden fixed bottom-0 inset-x-0 z-50 translate-y-full transition-transform duration-300">
+    <div class="m-3 grid grid-cols-2 gap-3 rounded-2xl bg-espresso/95 backdrop-blur-md p-2.5 shadow-lift">
+      <a href="tel:+12539876536" class="inline-flex items-center justify-center gap-2 rounded-xl bg-cream/10 px-4 py-3 text-sm font-semibold text-cream">
+        <svg class="w-4 h-4 text-caramel" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+        Call
+      </a>
+      <a href="#quote" class="inline-flex items-center justify-center gap-2 rounded-xl bg-caramel px-4 py-3 text-sm font-semibold text-white">
+        Free Quote
+      </a>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
